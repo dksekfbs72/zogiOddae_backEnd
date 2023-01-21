@@ -9,6 +9,8 @@ public class AccommodationPaymentForm {
     private Long customerId;
     private Long accommodationOrderItemId; // 주문 상품 아이디
 
+    private String accommodationName;
+
     private Long accommodationId;
 
     private Integer price;

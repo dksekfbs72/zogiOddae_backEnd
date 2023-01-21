@@ -1,9 +1,13 @@
 package com.zerobase.accommodation.service.payment;
 
 import com.zerobase.accommodation.domain.dto.payment.AccommodationPaymentDto;
+import com.zerobase.accommodation.domain.entity.accommodation.Accommodation;
+import com.zerobase.accommodation.domain.entity.order.AccommodationCart;
 import com.zerobase.accommodation.domain.entity.order.AccommodationOrderItem;
 import com.zerobase.accommodation.domain.entity.payment.AccommodationPayment;
 import com.zerobase.accommodation.domain.form.payment.AccommodationPaymentForm;
+import com.zerobase.accommodation.domain.repository.accommodation.AccommodationRepository;
+import com.zerobase.accommodation.domain.repository.order.AccommodationCartRepository;
 import com.zerobase.accommodation.domain.repository.order.AccommodationOrderItemRepository;
 import com.zerobase.accommodation.domain.repository.payment.AccommodationPaymentRepository;
 import com.zerobase.accommodation.domain.type.ErrorCode;
@@ -33,7 +37,7 @@ import org.springframework.web.client.RestTemplate;
 public class AccommodationPaymentService {
 
     private final AccommodationPaymentRepository accommodationPaymentRepository;
-    private final AccommodationOrderItemRepository accommodationOrderItemRepository;
+    private final AccommodationCartRepository accommodationCartRepository;
 
     private static final String AUTHORIZATION = "KakaoAK 5d569ea19c6b8b53c9342d4d65a394e6"; //카카오페이 api 키
     private static final String CONTENTTYPE = "application/x-www-form-urlencoded;charset=utf-8";
@@ -52,9 +56,9 @@ public class AccommodationPaymentService {
         RestTemplate restTemplate = new RestTemplate();
         String url = "https://kapi.kakao.com/v1/payment/ready"; //카카오 APi URL
 
-        //상품 주문에서 상품 주문관련 데이터 가져오기
-//        AccommodationOrderItem accommodationOrderItem = accommodationOrderItemRepository.findById(form.getAccommodationOrderItemId())
-//            .orElseThrow(() -> new AccommodationException(ErrorCode.NOT_FOUND_ACCOMMODATION_ORDER_ITEM));
+        //카트에서 정보 가져오기
+        AccommodationCart accommodationCart = accommodationCartRepository.findByCustomerId(form.getCustomerId())
+            .orElseThrow(() -> new AccommodationException(ErrorCode.NOT_FOUND_CART));
 
         AccommodationPayment accommodationPayment = AccommodationPayment.builder()
             .price(form.getPrice())
@@ -71,7 +75,7 @@ public class AccommodationPaymentService {
         String parameter = "cid=TC0ONETIME" // 가맹점 코드 - 테스트용으로 고정
             + "&partner_order_id=" + form.getAccommodationOrderItemId()// 가맹점 주문번호를 상품주문 ID로 사용
             + "&partner_user_id=" + form.getCustomerId() // 가맹점 회원 id
-            + "&item_name=상품명"//accommodationOrderItem.getAccommodationName() // 상품명
+            + "&item_name=" + form.getAccommodationName() // 상품명
             + "&quantity=1" // 상품 수량
             + "&total_amount=" + form.getPrice().toString() // 총 금액
             + "&vat_amount=" + vat_amount  //부가세

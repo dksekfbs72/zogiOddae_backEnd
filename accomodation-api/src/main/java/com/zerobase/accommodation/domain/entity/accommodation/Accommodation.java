@@ -40,6 +40,9 @@ public class Accommodation extends BaseEntity {
 	private Integer minPerson;
 	private Integer maxPerson;
 
+	private String checkIn;
+	private String checkOut;
+
 	private double lat;
 	private double lon;
 
@@ -52,6 +55,8 @@ public class Accommodation extends BaseEntity {
 			.description(form.getDescription())
 			.minPerson(form.getMinPerson())
 			.maxPerson(form.getMaxPerson())
+			.checkIn(form.getCheckIn())
+			.checkOut(form.getCheckOut())
 			.build();
 	}
 }

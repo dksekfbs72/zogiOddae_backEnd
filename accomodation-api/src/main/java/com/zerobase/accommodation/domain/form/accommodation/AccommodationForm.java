@@ -19,6 +19,9 @@ public class AccommodationForm {
 	private double lat;
 	private double lon;
 
+	private String checkIn;
+	private String checkOut;
+
 	private LocalDate dayOffStartDate;
 	private LocalDate dayOffEndDate;
 }

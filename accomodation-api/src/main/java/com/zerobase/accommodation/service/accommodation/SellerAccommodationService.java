@@ -36,7 +36,7 @@ public class SellerAccommodationService {
     public Page<AccommodationListDto> getAllAccommodation(Long sellerId, Pageable pageable) {
         Pageable limit = PageRequest.of(pageable.getPageNumber(), 15);
 
-        Page<Accommodation> accommodationList = accommodationRepository.findAllBySellerId(sellerId)
+        Page<Accommodation> accommodationList = accommodationRepository.findAllBySellerId(sellerId, limit)
             .orElseThrow(() -> new AccommodationException(ErrorCode.NOT_FOUND_ACCOMMODATION));
 
         List<AccommodationListDto> dtoList = new ArrayList<>();

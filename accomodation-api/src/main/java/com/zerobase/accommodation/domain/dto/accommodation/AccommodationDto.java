@@ -21,6 +21,9 @@ public class AccommodationDto {
 	private Integer minPerson;
 	private Integer maxPerson;
 
+	private String checkIn;
+	private String checkOut;
+
 	private double lat;
 	private double lon;
 
@@ -35,6 +38,8 @@ public class AccommodationDto {
 			.minPerson(accommodation.getMinPerson())
 			.lat(accommodation.getLat())
 			.lon(accommodation.getLon())
+			.checkIn(accommodation.getCheckIn())
+			.checkOut(accommodation.getCheckOut())
 			.build();
 	}
 }
