@@ -28,7 +28,7 @@ public class AccommodationCouponGroup extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private Long salePrice;
+	private Integer salePrice;
 	private CouponTarget couponTarget;
 	private Integer issusedcount;
 

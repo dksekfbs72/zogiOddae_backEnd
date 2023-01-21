@@ -1,11 +1,13 @@
-package com.zerobase.accomodation.domain.entity.order;
+package com.zerobase.accommodation.domain.entity.order;
 
-import com.zerobase.accomodation.domain.entity.common.BaseEntity;
+import com.zerobase.accommodation.domain.entity.common.BaseEntity;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,18 +22,14 @@ import org.hibernate.envers.AuditOverride;
 @NoArgsConstructor
 @AllArgsConstructor
 @AuditOverride(forClass = BaseEntity.class)
-public class AccomodationOrderItem extends BaseEntity {
+public class AccommodationCart extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@ManyToOne
-	private AccomodationOrder accomodationOrder;
-
 	private Long customerId;
-	private Long sellerId;
 
-	private Long accomodationId;
-
-	private Integer price;
+	@OneToMany
+	private List<AccommodationOrderItem> accommodationItemList = new ArrayList<>();
+	private Integer totalPrice;
 }

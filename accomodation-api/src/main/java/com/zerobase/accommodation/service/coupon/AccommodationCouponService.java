@@ -5,11 +5,10 @@ import com.zerobase.accommodation.domain.entity.coupon.AccommodationCoupon;
 import com.zerobase.accommodation.domain.entity.coupon.AccommodationCouponGroup;
 import com.zerobase.accommodation.domain.form.accommodation.AddAccommodationCouponForm;
 import com.zerobase.accommodation.domain.repository.coupon.AccommodationCouponGroupRepository;
-import com.zerobase.accommodation.domain.repository.coupon.AcoommodationCouponRepository;
+import com.zerobase.accommodation.domain.repository.coupon.AccommodationCouponRepository;
 import com.zerobase.accommodation.domain.type.ErrorCode;
 import com.zerobase.accommodation.exception.AccommodationException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +26,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AccommodationCouponService {
 
-    private final AcoommodationCouponRepository accommodationCouponRepository;
+    private final AccommodationCouponRepository accommodationCouponRepository;
     private final AccommodationCouponGroupRepository accommodationCouponGroupRepository;
 
 

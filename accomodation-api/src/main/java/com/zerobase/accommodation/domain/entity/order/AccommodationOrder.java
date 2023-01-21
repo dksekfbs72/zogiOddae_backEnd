@@ -1,12 +1,15 @@
-package com.zerobase.accomodation.domain.entity.order;
+package com.zerobase.accommodation.domain.entity.order;
 
-import com.zerobase.accomodation.domain.entity.common.BaseEntity;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import com.zerobase.accommodation.domain.entity.common.BaseEntity;
+import com.zerobase.accommodation.domain.type.OrderStatus;
+import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,26 +17,24 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.envers.AuditOverride;
 
-@Entity
+@Entity(name = "orderTable")
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @AuditOverride(forClass = BaseEntity.class)
-public class AccomodationCart extends BaseEntity {
+public class AccommodationOrder extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	private Long customerId;
-	private Long sellerId;
 
-	private Long accommodationId;
+	private Long accommodationPaymentId;
 
-	private LocalDate reservationDay;
-	private LocalDateTime reservationTime;
+	private Integer totalPrice;
 
-	private Integer price;
-	private Integer persons;
+	@Enumerated(EnumType.STRING)
+	private OrderStatus orderStatus;
 }

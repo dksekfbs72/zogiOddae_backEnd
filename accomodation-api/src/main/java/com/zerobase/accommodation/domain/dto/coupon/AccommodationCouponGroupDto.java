@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class AccommodationCouponGroupDto {
     private Long id;
 
-    private Long salePrice;
+    private Integer salePrice;
     private CouponTarget couponTarget;
     private Integer issusedcount;
 
