@@ -19,7 +19,6 @@ repositories {
 }
 
 dependencies {
-    implementation project(path: ':common-lib', configuration: 'default')
     
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -30,7 +29,7 @@ dependencies {
     implementation 'io.springfox:springfox-swagger-ui:3.0.0'
 
     runtimeOnly 'com.h2database:h2'
-    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+    implementation 'mysql:mysql-connector-java:8.0.28'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
