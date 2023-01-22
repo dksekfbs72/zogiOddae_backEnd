@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping("/leisure/cart")
+@RequestMapping("/customer/leisure/cart")
 @RequiredArgsConstructor
 public class LeisureCartController {
 	private final LeisureCartService leisureCartService;

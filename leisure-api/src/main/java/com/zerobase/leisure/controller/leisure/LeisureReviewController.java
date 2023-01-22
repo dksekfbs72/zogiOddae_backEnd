@@ -20,13 +20,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping("/leisure/review")
 @RequiredArgsConstructor
 public class LeisureReviewController {
 
 	private final LeisureReviewService leisureReviewService;
 
-	@PostMapping
+	@PostMapping("/customer/leisure/review")
 	public @ResponseBody WebResponseData<String> addLeisureReview(@RequestBody AddLeisureReviewForm form) {
 		leisureReviewService.addLeisureReview(form);
 		return WebResponseData.ok("리뷰를 성공적으로 등록했습니다.");
@@ -35,14 +34,14 @@ public class LeisureReviewController {
 	/*
 	상품 조회 시 모든 리뷰 조회
 	 */
-	@GetMapping
+	@GetMapping("/customer/leisure/review")
 	public @ResponseBody WebResponseData<Page<LeisureReviewDto>> getLeisure(@RequestParam Long leisureId, final
 		Pageable pageable) {
 		Page<LeisureReviewDto> leisureReviewDtos = leisureReviewService.getAllLeisureReview(leisureId,pageable);
 		return WebResponseData.ok(leisureReviewDtos);
 	}
 
-	@PutMapping
+	@PutMapping("/customer/leisure/review")
 	public @ResponseBody WebResponseData<String> updateLeisureReview(@RequestParam Long leisureReviewId, @RequestBody AddLeisureReviewForm form) {
 		leisureReviewService.updateLeisureReview(leisureReviewId,form);
 		return WebResponseData.ok("리뷰를 수정했습니다.");
@@ -51,13 +50,13 @@ public class LeisureReviewController {
 	/*
 	샐러가 답글 달기
    */
-	@PutMapping("/reply")
+	@PutMapping("/seller/leisure/review/reply")
 	public @ResponseBody WebResponseData<String> updateReplyLeisure(@RequestParam Long leisureReviewId, @RequestBody AddLeisureReviewForm form) {
 		leisureReviewService.updateReplyLeisureReview(leisureReviewId,form);
 		return WebResponseData.ok("리뷰에 답글을 남겼습니다.");
 	}
 
-	@DeleteMapping
+	@DeleteMapping("/customer/leisure/review")
 	public @ResponseBody WebResponseData<String> deleteLeisureReview(@RequestParam Long leisureReviewId) {
 		leisureReviewService.deleteLeisureReview(leisureReviewId);
 		return WebResponseData.ok("성공적으로 삭제 되었습니다.");

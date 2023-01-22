@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping("/leisure")
+@RequestMapping("/seller/leisure")
 @RequiredArgsConstructor
 public class SellerLeisureController {
 

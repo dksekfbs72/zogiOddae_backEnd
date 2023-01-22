@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/leisure/wish")
+@RequestMapping("/customer/leisure/wish")
 @RequiredArgsConstructor
 public class LeisureWishController {
 
