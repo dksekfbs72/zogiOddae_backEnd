@@ -99,9 +99,9 @@ public class LeisureWishServiceTest {
 		//when
 		List<LeisureWishListDto> list = null;
 	    //then
-		assertEquals(list.get(0).getLeisureName(), "산 레저");
-		assertEquals(list.get(1).getLeisureName(), "바다 레저");
-		assertEquals(list.get(2).getLeisureName(), "산바다 레저");
+		assertEquals(list.get(0).getName(), "산 레저");
+		assertEquals(list.get(1).getName(), "바다 레저");
+		assertEquals(list.get(2).getName(), "산바다 레저");
 		assertEquals(list.get(0).getAddr(), "허리도 가늘군 만지면 부러지리");
 		assertEquals(list.get(1).getAddr(), "허리도 가늘군 만지면");
 		assertEquals(list.get(2).getAddr(), "허리도 가늘군");

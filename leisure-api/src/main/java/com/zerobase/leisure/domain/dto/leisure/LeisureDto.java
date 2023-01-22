@@ -16,7 +16,7 @@ public class LeisureDto {
 	private Long id;
 	private Long sellerId;
 
-	private String leisureName;
+	private String name;
 	private String addr;
 	private Integer price;
 	private String description;
@@ -33,7 +33,7 @@ public class LeisureDto {
 		return LeisureDto.builder()
 			.id(leisure.getId())
 			.sellerId(leisure.getSellerId())
-			.leisureName(leisure.getLeisureName())
+			.name(leisure.getLeisureName())
 			.addr(leisure.getAddr())
 			.pictureUrl(leisure.getPictureUrl())
 			.price(leisure.getPrice())

@@ -15,7 +15,7 @@ public class LeisureCartPaymentDto {
 
 	private String userName;
 
-	private List<LeisureOrderItemDto> leisureOrderItemList;
+	private List<LeisureOrderItemDto> orderItemList;
 
 	private Integer totalPrice;
 }

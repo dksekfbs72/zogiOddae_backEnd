@@ -11,31 +11,25 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LeisureOrderItemDto {
-	private Long orderItemId;
-	private Long sellerId;
+public class LeisureOrderListDto {
+	private Long orderId;
 
-	private Long couponId;
-	private Integer salePrice;
+	private String reservationId;
 
 	private String name;
-	private Integer price;
 
 	private String pictureUrl;
 
 	private Integer persons;
 
+	private Integer orderCount; //주문 개수
+
 	private String startAt;
 	private String endAt;
 
-	public static LeisureOrderItemDto from(LeisureOrderItem leisureOrderItem, Leisure leisure) {
-		return LeisureOrderItemDto.builder()
-			.orderItemId(leisureOrderItem.getId())
-			.sellerId(leisure.getSellerId())
-			.couponId(leisureOrderItem.getCouponId())
-			.salePrice(leisureOrderItem.getSalePrice())
+	public static LeisureOrderListDto from(LeisureOrderItem leisureOrderItem, Leisure leisure) {
+		return LeisureOrderListDto.builder()
 			.name(leisure.getLeisureName())
-			.price(leisureOrderItem.getPrice())
 			.persons(leisureOrderItem.getPersons())
 			.startAt(leisureOrderItem.getStartAt().toString())
 			.endAt(leisureOrderItem.getEndAt().toString())

@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LeisureCouponGroupDto {
-    private Long id;
+    private Long couponGroupId;
 
     private Integer salePrice;
     private CouponTarget couponTarget;
@@ -21,7 +21,7 @@ public class LeisureCouponGroupDto {
 
     public static LeisureCouponGroupDto from(LeisureCouponGroup leisureCouponGroup) {
         return LeisureCouponGroupDto.builder()
-            .id(leisureCouponGroup.getId())
+            .couponGroupId(leisureCouponGroup.getId())
             .salePrice(leisureCouponGroup.getSalePrice())
             .couponTarget(leisureCouponGroup.getCouponTarget())
             .issuedCount(leisureCouponGroup.getIssuedCount())

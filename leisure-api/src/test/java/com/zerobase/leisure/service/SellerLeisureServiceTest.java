@@ -76,7 +76,7 @@ class SellerLeisureServiceTest {
 		List<LeisureDto> leisureList = sellerLeisureService.getAllLeisure(1L, Pageable.ofSize(0)).toList();
 		//then
 		assertEquals(leisureList.get(0).getSellerId(),1L);
-		assertEquals(leisureList.get(0).getLeisureName(), "바다 레저");
+		assertEquals(leisureList.get(0).getName(), "바다 레저");
 		assertEquals(leisureList.get(0).getPrice(), 18000);
 		assertEquals(leisureList.get(0).getPictureUrl(), "D://test/test.jpg");
 		assertEquals(leisureList.get(0).getAddr(), "허리도 가늘군 만지면 부러지리");

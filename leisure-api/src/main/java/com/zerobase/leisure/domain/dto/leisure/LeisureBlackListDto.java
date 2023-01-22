@@ -14,16 +14,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class LeisureBlackListDto {
 
-    private Long leisureBlackListId;
-    private Long leisureId;
+    private Long blackListId;
+    private Long id;
 
     private Long customerId;
     private String description;
 
     public static LeisureBlackListDto from(LeisureBlackList leisureBlackList) {
         return LeisureBlackListDto.builder()
-            .leisureBlackListId(leisureBlackList.getId())
-            .leisureId(leisureBlackList.getLeisureId())
+            .blackListId(leisureBlackList.getId())
+            .id(leisureBlackList.getLeisureId())
             .customerId(leisureBlackList.getCustomerId())
             .description(leisureBlackList.getDescription())
             .build();

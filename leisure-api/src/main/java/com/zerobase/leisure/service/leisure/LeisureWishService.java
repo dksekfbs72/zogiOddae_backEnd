@@ -54,10 +54,10 @@ public class LeisureWishService {
 
 			leisureWishListDtoList.add(
 				LeisureWishListDto.builder()
-					.leisureWishListId(leisureWishList.getId())
-					.leisureId(leisureWishList.getLeisureId())
+					.wishListId(leisureWishList.getId())
+					.id(leisureWishList.getLeisureId())
 					.memberId(memberId)
-					.leisureName(leisure.getLeisureName())
+					.name(leisure.getLeisureName())
 					.addr(leisure.getAddr())
 					.price(leisure.getPrice())
 					.pictureUrl(leisure.getPictureUrl())

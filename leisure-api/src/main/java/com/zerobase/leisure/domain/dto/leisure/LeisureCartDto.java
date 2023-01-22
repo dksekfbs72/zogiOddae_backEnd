@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class LeisureCartDto {
 	private Long cartId;
 
-	private List<LeisureOrderItemDto> leisureOrderItemList;
+	private List<LeisureCartItemDto> cartItemList;
 
 	private Integer totalPrice;
 }

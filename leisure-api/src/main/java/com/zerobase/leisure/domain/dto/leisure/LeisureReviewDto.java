@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LeisureReviewDto {
-	private Long leisureReviewId;
+	private Long reviewId;
 
 	private Long customerId;
 	private Long sellerId;
@@ -26,7 +26,7 @@ public class LeisureReviewDto {
 
 	public static LeisureReviewDto from(LeisureReview leisureReview) {
 		return LeisureReviewDto.builder()
-			.leisureReviewId(leisureReview.getId())
+			.reviewId(leisureReview.getId())
 			.sellerId(leisureReview.getSellerId())
 			.customerId(leisureReview.getCustomerId())
 			.leisureId(leisureReview.getLeisureId())

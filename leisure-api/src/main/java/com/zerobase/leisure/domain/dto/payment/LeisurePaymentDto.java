@@ -14,11 +14,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LeisurePaymentDto {
-    private Long leisurePaymentId;
+    private Long paymentId;
     private Long customerId;
-    private Long leisureOrderItemId; // 주문 상품 아이디
+    private Long orderItemId; // 주문 상품 아이디
 
-    private Long leisureId;
+    private Long id;
 
     private Integer price;
 
@@ -27,23 +27,22 @@ public class LeisurePaymentDto {
 
     private PaymentStatus status;
 
-    @JsonFormat
-    private LocalDateTime canceledAt;
+    private String canceledAt;
     private String nextRedirectURL;
 
     private String approveURL;
 
     public static LeisurePaymentDto from(LeisurePayment leisurePayment, String nextRedirectURL, String approveURL) {
         return LeisurePaymentDto.builder()
-            .leisurePaymentId(leisurePayment.getId())
+            .paymentId(leisurePayment.getId())
             .customerId(leisurePayment.getCustomerId())
-            .leisureOrderItemId(leisurePayment.getLeisureOrderItemId())
-            .leisureId(leisurePayment.getLeisureId())
+            .orderItemId(leisurePayment.getLeisureOrderItemId())
+            .id(leisurePayment.getLeisureId())
             .price(leisurePayment.getPrice())
             .tid(leisurePayment.getTid())
             .paymentToken(leisurePayment.getPaymentToken())
             .status(leisurePayment.getStatus())
-            .canceledAt(leisurePayment.getCanceledAt())
+            .canceledAt(leisurePayment.getCanceledAt().toString())
             .nextRedirectURL(nextRedirectURL)
             .approveURL(approveURL)
             .build();
@@ -51,15 +50,15 @@ public class LeisurePaymentDto {
 
     public static LeisurePaymentDto from(LeisurePayment leisurePayment) {
         return LeisurePaymentDto.builder()
-            .leisurePaymentId(leisurePayment.getId())
+            .paymentId(leisurePayment.getId())
             .customerId(leisurePayment.getCustomerId())
-            .leisureOrderItemId(leisurePayment.getLeisureOrderItemId())
-            .leisureId(leisurePayment.getLeisureId())
+            .orderItemId(leisurePayment.getLeisureOrderItemId())
+            .id(leisurePayment.getLeisureId())
             .price(leisurePayment.getPrice())
             .tid(leisurePayment.getTid())
             .paymentToken(leisurePayment.getPaymentToken())
             .status(leisurePayment.getStatus())
-            .canceledAt(leisurePayment.getCanceledAt())
+            .canceledAt(leisurePayment.getCanceledAt().toString())
             .build();
     }
 }

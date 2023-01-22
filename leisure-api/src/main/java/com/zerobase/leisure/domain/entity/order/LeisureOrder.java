@@ -30,6 +30,8 @@ public class LeisureOrder extends BaseEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	private String reservationId;
+
 	private Long customerId;
 
 	private Long leisurePaymentId;

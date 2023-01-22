@@ -12,21 +12,21 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LeisureWishListDto {
-	private Long leisureWishListId;
-	private Long leisureId;
+	private Long wishListId;
+	private Long id;
 
 	private Long memberId;
-	private String leisureName;
+	private String name;
 	private String addr;
 	private Integer price;
 	private String pictureUrl;
 
 	public static LeisureWishListDto from(LeisureWishList LeisureWishList, Leisure leisure) {
 		return LeisureWishListDto.builder()
-			.leisureWishListId(LeisureWishList.getId())
-			.leisureId(leisure.getId())
+			.wishListId(LeisureWishList.getId())
+			.id(leisure.getId())
 			.memberId(LeisureWishList.getMemberId())
-			.leisureName(leisure.getLeisureName())
+			.name(leisure.getLeisureName())
 			.addr(leisure.getAddr())
 			.price(leisure.getPrice())
 			.pictureUrl(leisure.getPictureUrl())

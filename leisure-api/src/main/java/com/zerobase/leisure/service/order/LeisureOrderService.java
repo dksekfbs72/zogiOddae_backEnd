@@ -58,6 +58,7 @@ public class LeisureOrderService {
 				.orElseThrow(() -> new LeisureException(ErrorCode.NOT_FOUND_PAYMENT))
 				.getPrice())
 			.orderStatus(OrderStatus.PAYMENT)
+			.reservationId(UUID.randomUUID().toString().replace("-", "").substring(0, 15))
 			.build());
 
 		LeisureCart leisureCart = leisureCartRepository.findByCustomerId(customerId)
@@ -69,12 +70,12 @@ public class LeisureOrderService {
 
 		for (LeisureOrderItem leisureOrderItem : leisureOrderItemList) {
 			leisureOrderItem.setLeisureCart(null);
-			leisureOrderItem.setReservationId(
-				UUID.randomUUID().toString().replace("-", "").substring(0,15));
+
 			leisureOrderItem.setLeisureOrderId(leisureOrder.getId());
 
 			if (leisureOrderItem.getCouponId() != null) {
-				LeisureCoupon leisureCoupon = leisureCouponRepository.findById(leisureOrderItem.getCouponId())
+				LeisureCoupon leisureCoupon = leisureCouponRepository.findById(
+						leisureOrderItem.getCouponId())
 					.orElseThrow(() -> new LeisureException(ErrorCode.NOT_FOUND_COUPON));
 				leisureCoupon.setUsedYN(true);
 				leisureCoupon.setUsedTime(LocalDateTime.now());
@@ -94,7 +95,8 @@ public class LeisureOrderService {
 
 		List<Long> leisureOrderIds = ids(leisureOrderRepository.findByCustomerId(customerId));
 
-		Page<LeisureOrderItem> leisureOrderItems = leisureOrderItemRepository.findAllByLeisureOrderIdIn(leisureOrderIds,limit);
+		Page<LeisureOrderItem> leisureOrderItems = leisureOrderItemRepository.findAllByLeisureOrderIdIn(
+			leisureOrderIds, limit);
 
 		List<LeisureOrderItemDto> leisureOrderItemDtoList = new ArrayList<>();
 
@@ -102,7 +104,7 @@ public class LeisureOrderService {
 
 		List<Leisure> leisureList = leisureRepository.findAllById(leisureIds);
 
-		for (int i=0; i<leisureOrderItems.toList().size(); i++) {
+		for (int i = 0; i < leisureOrderItems.toList().size(); i++) {
 			int index = whereLeisure(leisureList, leisureIds.get(i));
 			if (index == -1) {
 				continue;
@@ -123,7 +125,7 @@ public class LeisureOrderService {
 	}
 
 	private int whereLeisure(List<Leisure> leisureList, Long id) {
-		for (int i=0; i<leisureList.size(); i++) {
+		for (int i = 0; i < leisureList.size(); i++) {
 			if (leisureList.get(i).getId().equals(id)) {
 				return i;
 			}

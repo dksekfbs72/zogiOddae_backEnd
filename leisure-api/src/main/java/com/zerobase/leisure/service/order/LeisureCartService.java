@@ -135,7 +135,7 @@ public class LeisureCartService {
 		return LeisureCartPaymentDto.builder()
 			.userName(userName)
 			.cartId(leisureCart.getId())
-			.leisureOrderItemList(list)
+			.orderItemList(list)
 			.totalPrice(leisureCart.getTotalPrice())
 			.build();
 	}
