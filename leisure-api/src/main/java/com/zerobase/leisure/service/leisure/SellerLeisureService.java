@@ -1,7 +1,6 @@
 package com.zerobase.leisure.service.leisure;
 
 import com.zerobase.leisure.domain.dto.leisure.LeisureDayOffDto;
-import com.zerobase.leisure.domain.dto.leisure.LeisureDto;
 import com.zerobase.leisure.domain.dto.leisure.LeisureListDto;
 import com.zerobase.leisure.domain.entity.leisure.Leisure;
 import com.zerobase.leisure.domain.entity.leisure.LeisureDayOff;
@@ -78,8 +77,8 @@ public class SellerLeisureService {
 		return leisureDayOffRepository.save(LeisureDayOff.builder()
 			.leisureId(leisureId)
 			.year(dayOffStart.substring(0, 4))
-			.startDate(form.getStartDay())
-			.endDate(form.getEndDay())
+			.startAt(form.getStartDay())
+			.endAt(form.getEndDay())
 			.build());
 	}
 
@@ -105,8 +104,8 @@ public class SellerLeisureService {
 		String dayOffStart = form.getStartDay().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
 
 		leisureDayOff.setYear(dayOffStart.substring(0,4));
-		leisureDayOff.setStartDate(form.getStartDay());
-		leisureDayOff.setEndDate(form.getEndDay());
+		leisureDayOff.setStartAt(form.getStartDay());
+		leisureDayOff.setEndAt(form.getEndDay());
 
 		leisureDayOffRepository.save(leisureDayOff);
 	}

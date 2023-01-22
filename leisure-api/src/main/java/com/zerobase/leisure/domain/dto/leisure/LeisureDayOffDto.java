@@ -25,8 +25,8 @@ public class LeisureDayOffDto {
 			.dayOffId(leisureDayOff.getId())
 			.id(leisureDayOff.getLeisureId())
 			.year(leisureDayOff.getYear())
-			.startDate(leisureDayOff.getStartDate().toString())
-			.endDate(leisureDayOff.getEndDate().toString())
+			.startDate(leisureDayOff.getStartAt().toString())
+			.endDate(leisureDayOff.getEndAt().toString())
 			.build();
 	}
 

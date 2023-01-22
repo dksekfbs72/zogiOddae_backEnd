@@ -2,17 +2,20 @@ package com.zerobase.leisure.service.order;
 
 import com.zerobase.leisure.application.LeisureCartCheck;
 import com.zerobase.leisure.domain.dto.leisure.LeisureCartDto;
+import com.zerobase.leisure.domain.dto.leisure.LeisureCartItemDto;
 import com.zerobase.leisure.domain.dto.leisure.LeisureCartPaymentDto;
 import com.zerobase.leisure.domain.dto.leisure.LeisureOrderItemDto;
 import com.zerobase.leisure.domain.entity.coupon.LeisureCoupon;
 import com.zerobase.leisure.domain.entity.coupon.LeisureCouponGroup;
 import com.zerobase.leisure.domain.entity.leisure.Leisure;
+import com.zerobase.leisure.domain.entity.leisure.LeisureReservationDay;
 import com.zerobase.leisure.domain.entity.order.LeisureCart;
 import com.zerobase.leisure.domain.entity.order.LeisureOrderItem;
 import com.zerobase.leisure.domain.form.AddLeisureCartForm;
 import com.zerobase.leisure.domain.repository.coupon.LeisureCouponGroupRepository;
 import com.zerobase.leisure.domain.repository.coupon.LeisureCouponRepository;
 import com.zerobase.leisure.domain.repository.leisure.LeisureRepository;
+import com.zerobase.leisure.domain.repository.leisure.LeisureReservationDayRepository;
 import com.zerobase.leisure.domain.repository.order.LeisureCartRepository;
 import com.zerobase.leisure.domain.repository.order.LeisureOrderItemRepository;
 import com.zerobase.leisure.domain.type.ErrorCode;
@@ -34,6 +37,7 @@ public class LeisureCartService {
 	private final LeisureCartCheck leisureCartCheck;
 	private final LeisureCouponRepository leisureCouponRepository;
 	private final LeisureCouponGroupRepository leisureCouponGroupRepository;
+	private final LeisureReservationDayRepository leisureReservationDayRepository;
 
 	public void addLeisureCart(Long customerId, AddLeisureCartForm form) {
 		if (leisureOrderItemRepository.findByLeisureCart_CustomerIdAndLeisureId(customerId,
@@ -49,6 +53,11 @@ public class LeisureCartService {
 		}
 		Optional<LeisureCart> optionalLeisureCart = leisureCartRepository.findByCustomerId(
 			customerId);
+
+		leisureReservationDayRepository.findByStartAtBetween(form.getStartAt(),form.getEndAt())
+			.orElseThrow(() -> new LeisureException(ErrorCode.ALREADY_RESERVATION_DAY));
+		leisureReservationDayRepository.findByEndAtBetween(form.getStartAt(),form.getEndAt())
+			.orElseThrow(() -> new LeisureException(ErrorCode.ALREADY_RESERVATION_DAY));
 
 		LeisureCart leisureCart= optionalLeisureCart.orElseGet(
 			() -> leisureCartRepository.save(LeisureCart.builder()
@@ -94,14 +103,14 @@ public class LeisureCartService {
 
 		List<Leisure> leisureList = leisureRepository.findAllById(leisureIds(leisureOrderItemList));
 
-		List<LeisureOrderItemDto> list = new ArrayList<>();
+		List<LeisureCartItemDto> list = new ArrayList<>();
 		for (int i=0; i<leisureList.size(); i++) {
-			list.add(LeisureOrderItemDto.from(leisureOrderItemList.get(i),leisureList.get(i)));
+			list.add(LeisureCartItemDto.from(leisureOrderItemList.get(i),leisureList.get(i)));
 		}
 
 		return LeisureCartDto.builder()
 			.cartId(leisureCart.getId())
-			.leisureOrderItemList(list)
+			.cartItemList(list)
 			.totalPrice(leisureCart.getTotalPrice())
 			.build();
 	}

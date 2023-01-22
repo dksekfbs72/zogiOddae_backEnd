@@ -3,11 +3,13 @@ package com.zerobase.leisure.service.order;
 import com.zerobase.leisure.domain.dto.leisure.LeisureOrderItemDto;
 import com.zerobase.leisure.domain.entity.coupon.LeisureCoupon;
 import com.zerobase.leisure.domain.entity.leisure.Leisure;
+import com.zerobase.leisure.domain.entity.leisure.LeisureReservationDay;
 import com.zerobase.leisure.domain.entity.order.LeisureCart;
 import com.zerobase.leisure.domain.entity.order.LeisureOrder;
 import com.zerobase.leisure.domain.entity.order.LeisureOrderItem;
 import com.zerobase.leisure.domain.repository.coupon.LeisureCouponRepository;
 import com.zerobase.leisure.domain.repository.leisure.LeisureRepository;
+import com.zerobase.leisure.domain.repository.leisure.LeisureReservationDayRepository;
 import com.zerobase.leisure.domain.repository.order.LeisureCartRepository;
 import com.zerobase.leisure.domain.repository.order.LeisureOrderItemRepository;
 import com.zerobase.leisure.domain.repository.order.LeisureOrderRepository;
@@ -16,6 +18,7 @@ import com.zerobase.leisure.domain.type.ErrorCode;
 import com.zerobase.leisure.domain.type.OrderStatus;
 import com.zerobase.leisure.exception.LeisureException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -38,6 +41,7 @@ public class LeisureOrderService {
 	private final LeisurePaymentRepository leisurePaymentRepository;
 	private final LeisureRepository leisureRepository;
 	private final LeisureCouponRepository leisureCouponRepository;
+	private final LeisureReservationDayRepository leisureReservationDayRepository;
 
 	@Transactional
 	public void LeisureOrder(Long customerId, Long leisurePaymentId) {
@@ -83,6 +87,13 @@ public class LeisureOrderService {
 				leisureCouponRepository.save(leisureCoupon);
 			}
 
+			leisureReservationDayRepository.save(LeisureReservationDay.builder()
+				.leisureId(leisureOrderItem.getLeisureId())
+				.year(leisureOrderItem.getStartAt().format(DateTimeFormatter.ofPattern("yyyyMMdd"))
+					.substring(0, 4))
+				.startAt(leisureOrderItem.getStartAt())
+				.endAt(leisureOrderItem.getEndAt())
+				.build());
 			leisureOrderItemRepository.save(leisureOrderItem);
 		}
 

@@ -155,8 +155,8 @@ class SellerLeisureServiceTest {
 		//then
 		assertNotNull(leisureDayOff);
 		assertEquals(leisureDayOff.getYear(),"2023");
-		assertEquals(leisureDayOff.getStartDate(),LocalDate.of(2023,1,1));
-		assertEquals(leisureDayOff.getEndDate(),LocalDate.of(2023,1,2));
+		assertEquals(leisureDayOff.getStartAt(),LocalDate.of(2023,1,1));
+		assertEquals(leisureDayOff.getEndAt(),LocalDate.of(2023,1,2));
 	}
 
 	@Test
@@ -197,12 +197,12 @@ class SellerLeisureServiceTest {
 		assertEquals(leisureDayOffList.get(0).getYear(), "2023");
 		assertEquals(leisureDayOffList.get(1).getYear(), "2023");
 		assertEquals(leisureDayOffList.get(2).getYear(), "2023");
-		assertEquals(leisureDayOffList.get(0).getStartDate(), LocalDate.of(2023,1,1));
-		assertEquals(leisureDayOffList.get(1).getStartDate(), LocalDate.of(2023,1,2));
-		assertEquals(leisureDayOffList.get(2).getStartDate(), LocalDate.of(2023,1,3));
-		assertEquals(leisureDayOffList.get(0).getEndDate(), LocalDate.of(2023,1,2));
-		assertEquals(leisureDayOffList.get(1).getEndDate(), LocalDate.of(2023,1,3));
-		assertEquals(leisureDayOffList.get(2).getEndDate(), LocalDate.of(2023,1,4));
+		assertEquals(leisureDayOffList.get(0).getStartAt(), LocalDate.of(2023,1,1));
+		assertEquals(leisureDayOffList.get(1).getStartAt(), LocalDate.of(2023,1,2));
+		assertEquals(leisureDayOffList.get(2).getStartAt(), LocalDate.of(2023,1,3));
+		assertEquals(leisureDayOffList.get(0).getEndAt(), LocalDate.of(2023,1,2));
+		assertEquals(leisureDayOffList.get(1).getEndAt(), LocalDate.of(2023,1,3));
+		assertEquals(leisureDayOffList.get(2).getEndAt(), LocalDate.of(2023,1,4));
 	}
 
 	@Test
@@ -221,8 +221,8 @@ class SellerLeisureServiceTest {
 		LeisureDayOff leisureDayOff1 = leisureDayOffRepository.findById(leisureDayOff.getId()).get();
 		//then
 		assertEquals(leisureDayOff1.getYear(), "2024");
-		assertEquals(leisureDayOff1.getStartDate(), LocalDate.of(2024,2,4));
-		assertEquals(leisureDayOff1.getEndDate(), LocalDate.of(2024,2,5));
+		assertEquals(leisureDayOff1.getStartAt(), LocalDate.of(2024,2,4));
+		assertEquals(leisureDayOff1.getEndAt(), LocalDate.of(2024,2,5));
 	}
 
 

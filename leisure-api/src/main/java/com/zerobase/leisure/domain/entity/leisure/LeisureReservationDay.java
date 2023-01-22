@@ -1,7 +1,7 @@
 package com.zerobase.leisure.domain.entity.leisure;
 
 import com.zerobase.leisure.domain.entity.common.BaseEntity;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,13 +20,13 @@ import org.hibernate.envers.AuditOverride;
 @Builder
 @Setter
 @Getter
-public class LeisureDayOff extends BaseEntity{
+public class LeisureReservationDay extends BaseEntity{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private Long leisureId;
 
 	private String year;
-	private LocalDate startAt;
-	private LocalDate endAt;
+	private LocalDateTime startAt;
+	private LocalDateTime endAt;
 }
