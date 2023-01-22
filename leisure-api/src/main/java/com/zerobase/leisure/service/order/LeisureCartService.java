@@ -2,6 +2,7 @@ package com.zerobase.leisure.service.order;
 
 import com.zerobase.leisure.application.LeisureCartCheck;
 import com.zerobase.leisure.domain.dto.leisure.LeisureCartDto;
+import com.zerobase.leisure.domain.dto.leisure.LeisureCartPaymentDto;
 import com.zerobase.leisure.domain.dto.leisure.LeisureOrderItemDto;
 import com.zerobase.leisure.domain.entity.coupon.LeisureCoupon;
 import com.zerobase.leisure.domain.entity.coupon.LeisureCouponGroup;
@@ -99,6 +100,40 @@ public class LeisureCartService {
 		}
 
 		return LeisureCartDto.builder()
+			.cartId(leisureCart.getId())
+			.leisureOrderItemList(list)
+			.totalPrice(leisureCart.getTotalPrice())
+			.build();
+	}
+
+	@Transactional
+	public LeisureCartPaymentDto getLeisureCartPayment(Long customerId, String userName) {
+
+		LeisureCart leisureCart = leisureCartRepository.findByCustomerId(customerId)
+			.orElseThrow(() -> new LeisureException(ErrorCode.NOT_FOUND_CART));
+
+		List<LeisureOrderItem> leisureOrderItemList = leisureOrderItemRepository
+			.findAllByLeisureCart_CustomerId(customerId)
+			.orElseThrow(() -> new LeisureException(ErrorCode.NOT_HAD_ORDER_ITEM));
+
+		for (LeisureOrderItem i : leisureOrderItemList) {
+			leisureCartCheck.cartCheck(leisureCart, i);
+		}
+
+		leisureOrderItemList = leisureOrderItemRepository.findAllByLeisureCart_CustomerId(customerId)
+			.orElseThrow(() -> new LeisureException(ErrorCode.NOT_HAD_ORDER_ITEM));
+
+		leisureCart.setTotalPrice(totalPrice(leisureOrderItemList));
+
+		List<Leisure> leisureList = leisureRepository.findAllById(leisureIds(leisureOrderItemList));
+
+		List<LeisureOrderItemDto> list = new ArrayList<>();
+		for (int i=0; i<leisureList.size(); i++) {
+			list.add(LeisureOrderItemDto.from(leisureOrderItemList.get(i),leisureList.get(i)));
+		}
+
+		return LeisureCartPaymentDto.builder()
+			.userName(userName)
 			.cartId(leisureCart.getId())
 			.leisureOrderItemList(list)
 			.totalPrice(leisureCart.getTotalPrice())

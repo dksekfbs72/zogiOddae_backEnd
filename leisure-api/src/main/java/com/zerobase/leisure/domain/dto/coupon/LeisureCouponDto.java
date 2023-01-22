@@ -18,14 +18,13 @@ public class LeisureCouponDto {
 	private Long id;
 	private Long couponGroupId;
 
-	@JsonFormat
-	private LocalDate endTime;
+	private String endTime;
 
 	public static LeisureCouponDto from(LeisureCoupon leisureCoupon) {
 		return LeisureCouponDto.builder()
 			.id(leisureCoupon.getId())
 			.couponGroupId(leisureCoupon.getCouponGroupId())
-			.endTime(leisureCoupon.getEndTime())
+			.endTime(leisureCoupon.getEndTime().toString())
 			.build();
 	}
 }

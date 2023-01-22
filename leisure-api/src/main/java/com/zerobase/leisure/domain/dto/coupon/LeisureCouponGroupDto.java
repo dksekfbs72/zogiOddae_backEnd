@@ -1,10 +1,7 @@
 package com.zerobase.leisure.domain.dto.coupon;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.zerobase.leisure.domain.entity.coupon.LeisureCouponGroup;
 import com.zerobase.leisure.domain.type.CouponTarget;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,8 +17,7 @@ public class LeisureCouponGroupDto {
     private Integer salePrice;
     private CouponTarget couponTarget;
     private Integer issuedCount;
-    @JsonFormat
-    private LocalDate endTime;
+    private String endTime;
 
     public static LeisureCouponGroupDto from(LeisureCouponGroup leisureCouponGroup) {
         return LeisureCouponGroupDto.builder()
@@ -29,7 +25,7 @@ public class LeisureCouponGroupDto {
             .salePrice(leisureCouponGroup.getSalePrice())
             .couponTarget(leisureCouponGroup.getCouponTarget())
             .issuedCount(leisureCouponGroup.getIssuedCount())
-            .endTime(leisureCouponGroup.getEndTime())
+            .endTime(leisureCouponGroup.getEndTime().toString())
             .build();
     }
 }

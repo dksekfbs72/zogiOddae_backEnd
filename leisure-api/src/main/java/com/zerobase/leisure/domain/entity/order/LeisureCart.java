@@ -32,7 +32,5 @@ public class LeisureCart extends BaseEntity {
 
 	private Long customerId;
 
-	@OneToMany
-	private List<LeisureOrderItem> leisureItemList = new ArrayList<>();
 	private Integer totalPrice;
 }

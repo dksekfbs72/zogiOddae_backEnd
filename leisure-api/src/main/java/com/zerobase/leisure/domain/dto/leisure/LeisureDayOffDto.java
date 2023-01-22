@@ -19,18 +19,16 @@ public class LeisureDayOffDto {
 	private Long leisureId;
 
 	private String year;
-	@JsonFormat
-	private LocalDate startDate;
-	@JsonFormat
-	private LocalDate endDate;
+	private String startDate;
+	private String endDate;
 
 	public static LeisureDayOffDto from(LeisureDayOff leisureDayOff) {
 		return LeisureDayOffDto.builder()
 			.id(leisureDayOff.getId())
 			.leisureId(leisureDayOff.getLeisureId())
 			.year(leisureDayOff.getYear())
-			.startDate(leisureDayOff.getStartDate())
-			.endDate(leisureDayOff.getEndDate())
+			.startDate(leisureDayOff.getStartDate().toString())
+			.endDate(leisureDayOff.getEndDate().toString())
 			.build();
 	}
 

@@ -2,6 +2,7 @@ package com.zerobase.leisure.service.leisure;
 
 import com.zerobase.leisure.domain.dto.leisure.LeisureDayOffDto;
 import com.zerobase.leisure.domain.dto.leisure.LeisureDto;
+import com.zerobase.leisure.domain.dto.leisure.LeisureListDto;
 import com.zerobase.leisure.domain.entity.leisure.Leisure;
 import com.zerobase.leisure.domain.entity.leisure.LeisureDayOff;
 import com.zerobase.leisure.domain.form.LeisureDayOffForm;
@@ -33,18 +34,18 @@ public class SellerLeisureService {
 		return leisure;
 	}
 
-	public Page<LeisureDto> getAllLeisure(Long sellerId, Pageable pageable) {
+	public Page<LeisureListDto> getAllLeisure(Long sellerId, Pageable pageable) {
 		Pageable limit = PageRequest.of(pageable.getPageNumber(), 15, Sort.by("id"));
 
 		Page<Leisure> leisurePage = leisureRepository.findAllBySellerId(sellerId, limit);
 
-		List<LeisureDto> leisureDtos = LeisureDto.fromList(leisurePage.toList());
+		List<LeisureListDto> leisureDtos = LeisureListDto.fromList(leisurePage.toList());
 
 		return new PageImpl<>(leisureDtos, limit, leisurePage.getTotalElements());
 	}
 
-	public Leisure getDetailLeisure(Long leisureId, Long sellerId) {
-		return leisureRepository.getFirstByIdAndSellerId(leisureId, sellerId)
+	public Leisure getDetailLeisure(Long leisureId) {
+		return leisureRepository.findById(leisureId)
 			.orElseThrow(() -> new LeisureException(ErrorCode.NOT_FOUND_LEISURE));
 	}
 

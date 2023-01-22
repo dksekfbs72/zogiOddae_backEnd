@@ -1,21 +1,16 @@
 package com.zerobase.leisure.controller.leisure;
 
 
-import com.zerobase.common.auth.MemberDetails;
 import com.zerobase.leisure.domain.dto.leisure.LeisureDayOffDto;
 import com.zerobase.leisure.domain.dto.leisure.LeisureDto;
-import com.zerobase.leisure.domain.entity.leisure.LeisureDayOff;
+import com.zerobase.leisure.domain.dto.leisure.LeisureListDto;
 import com.zerobase.leisure.domain.form.LeisureDayOffForm;
 import com.zerobase.leisure.domain.form.LeisureForm;
 import com.zerobase.leisure.domain.model.WebResponseData;
-import com.zerobase.leisure.domain.type.ErrorCode;
-import com.zerobase.leisure.exception.LeisureException;
 import com.zerobase.leisure.service.leisure.SellerLeisureService;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,16 +38,16 @@ public class SellerLeisureController {
 	}
 
 	@GetMapping
-	public @ResponseBody WebResponseData<Page<LeisureDto>> getLeisure(@RequestParam Long sellerId, final
+	public @ResponseBody WebResponseData<Page<LeisureListDto>> getLeisure(@RequestParam Long sellerId, final
 		Pageable pageable) { //셀러 상품 전체 조회
-		Page<LeisureDto> leisureDtos = sellerLeisureService.getAllLeisure(sellerId, pageable);
+		Page<LeisureListDto> leisureDtos = sellerLeisureService.getAllLeisure(sellerId, pageable);
 		return WebResponseData.ok(leisureDtos);
 	}
 
 	@GetMapping("/detail")
-	public @ResponseBody WebResponseData<LeisureDto> getDetailLeisure(@RequestParam Long leisureId, @RequestParam Long sellerId) {
+	public @ResponseBody WebResponseData<LeisureDto> getDetailLeisure(@RequestParam Long leisureId) {
 		return WebResponseData.ok(
-			LeisureDto.from(sellerLeisureService.getDetailLeisure(leisureId, sellerId)));
+			LeisureDto.from(sellerLeisureService.getDetailLeisure(leisureId)));
 	}
 
 	@PutMapping

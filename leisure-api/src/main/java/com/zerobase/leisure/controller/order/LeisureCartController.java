@@ -1,6 +1,7 @@
 package com.zerobase.leisure.controller.order;
 
 import com.zerobase.leisure.domain.dto.leisure.LeisureCartDto;
+import com.zerobase.leisure.domain.dto.leisure.LeisureCartPaymentDto;
 import com.zerobase.leisure.domain.form.AddLeisureCartForm;
 import com.zerobase.leisure.domain.model.WebResponseData;
 import com.zerobase.leisure.service.order.LeisureCartService;
@@ -37,6 +38,12 @@ public class LeisureCartController {
 	public @ResponseBody WebResponseData<LeisureCartDto> getLeisureCart(@RequestParam Long customerId){
 		return WebResponseData.ok(leisureCartService.getLeisureCart(customerId));
 	}
+
+	@GetMapping("/payment")
+	public @ResponseBody WebResponseData<LeisureCartPaymentDto> getLeisureCartPayment(@RequestParam Long customerId, String customerName){
+		return WebResponseData.ok(leisureCartService.getLeisureCartPayment(customerId, customerName));
+	}
+
 
 	@PutMapping("/coupon")
 	public @ResponseBody WebResponseData<String> useCoupon(@RequestParam Long customerId, Long leisureOrderItemId, Long couponGroupId){

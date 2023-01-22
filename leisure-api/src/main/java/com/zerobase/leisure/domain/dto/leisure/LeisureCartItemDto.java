@@ -13,39 +13,29 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LeisureOrderItemDto {
+public class LeisureCartItemDto {
 	private Long leisureOrderItemId;
-	private Long sellerId;
-
-	private String reservationId;
-
-	private Long couponId;
-	private Integer salePrice;
 
 	private String leisureName;
-	private String addr;
 	private Integer price;
 
 	private String pictureUrl;
 
 	private Integer persons;
 
-	private String startAt;
-	private String endAt;
+	@JsonFormat
+	private LocalDateTime startAt;
+	@JsonFormat
+	private LocalDateTime endAt;
 
-	public static LeisureOrderItemDto from(LeisureOrderItem leisureOrderItem, Leisure leisure) {
-		return LeisureOrderItemDto.builder()
+	public static LeisureCartItemDto from(LeisureOrderItem leisureOrderItem, Leisure leisure) {
+		return LeisureCartItemDto.builder()
 			.leisureOrderItemId(leisureOrderItem.getId())
-			.reservationId(leisureOrderItem.getReservationId())
-			.sellerId(leisure.getSellerId())
-			.couponId(leisureOrderItem.getCouponId())
-			.salePrice(leisureOrderItem.getSalePrice())
 			.leisureName(leisure.getLeisureName())
-			.addr(leisure.getAddr())
-			.price(leisureOrderItem.getPrice())
+			.price(leisure.getPrice())
 			.persons(leisureOrderItem.getPersons())
-			.startAt(leisureOrderItem.getStartAt().toString())
-			.endAt(leisureOrderItem.getEndAt().toString())
+			.startAt(leisureOrderItem.getStartAt())
+			.endAt(leisureOrderItem.getEndAt())
 			.build();
 	}
 }
