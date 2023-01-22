@@ -13,11 +13,6 @@ import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -25,55 +20,53 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class LeisureCouponService {
 
-    private final LeisureCouponRepository leisureCouponRepository;
-    private final LeisureCouponGroupRepository leisureCouponGroupRepository;
+	private final LeisureCouponRepository leisureCouponRepository;
+	private final LeisureCouponGroupRepository leisureCouponGroupRepository;
 
 
-    public LeisureCoupon issuedLeisureCoupon(Long customerId, Long couponGroupId) {
-        Optional<LeisureCoupon> optionalLeisureCoupon =
-            leisureCouponRepository.findByCustomerIdAndCouponGroupId(customerId,couponGroupId);
+	public LeisureCoupon issuedLeisureCoupon(Long customerId, Long couponGroupId) {
+		Optional<LeisureCoupon> optionalLeisureCoupon =
+			leisureCouponRepository.findByCustomerIdAndCouponGroupId(customerId, couponGroupId);
 
-        if(optionalLeisureCoupon.isPresent()){
-            throw new LeisureException(ErrorCode.ALREADY_ISSUED_COUPON);
-        }
+		if (optionalLeisureCoupon.isPresent()) {
+			throw new LeisureException(ErrorCode.ALREADY_ISSUED_COUPON);
+		}
 
-        Optional<LeisureCouponGroup> optionalLeisureCouponGroup =
-            leisureCouponGroupRepository.findById(couponGroupId);
+		Optional<LeisureCouponGroup> optionalLeisureCouponGroup =
+			leisureCouponGroupRepository.findById(couponGroupId);
 
-        if(!optionalLeisureCouponGroup.isPresent()){
-            throw new LeisureException(ErrorCode.NOT_REGISTERED_COUPON_GROUP);
-        }
+		if (!optionalLeisureCouponGroup.isPresent()) {
+			throw new LeisureException(ErrorCode.NOT_REGISTERED_COUPON_GROUP);
+		}
 
-        if(LocalDate.now().isAfter(optionalLeisureCouponGroup.get().getEndTime())){
-            throw new LeisureException(ErrorCode.EXPIRED_COUPON);
-        }
+		if (LocalDate.now().isAfter(optionalLeisureCouponGroup.get().getEndTime())) {
+			throw new LeisureException(ErrorCode.EXPIRED_COUPON);
+		}
 
-        Long countCoupons = leisureCouponRepository.countByCouponGroupId(couponGroupId);
+		Long countCoupons = leisureCouponRepository.countByCouponGroupId(couponGroupId);
 
-        if(countCoupons >= optionalLeisureCouponGroup.get().getIssuedCount()){
-            throw new LeisureException(ErrorCode.EXCEEDED_COUNT_COUPON);
-        }
+		if (countCoupons >= optionalLeisureCouponGroup.get().getIssuedCount()) {
+			throw new LeisureException(ErrorCode.EXCEEDED_COUNT_COUPON);
+		}
 
-        return leisureCouponRepository.save(LeisureCoupon.builder()
-            .couponGroupId(couponGroupId)
-            .usedYN(false)
-            .customerId(customerId)
-            .endTime(optionalLeisureCouponGroup.get().getEndTime())
-            .build());
-    }
+		return leisureCouponRepository.save(LeisureCoupon.builder()
+			.couponGroupId(couponGroupId)
+			.usedYN(false)
+			.customerId(customerId)
+			.endTime(optionalLeisureCouponGroup.get().getEndTime())
+			.build());
+	}
 
-    public Page<LeisureCouponDto> getLeisureAllCoupon(Long customerId, Pageable pageable) {
-        Pageable limit = PageRequest.of(pageable.getPageNumber(), 15, Sort.by("id"));
+	public List<LeisureCouponDto> getLeisureAllCoupon(Long customerId) {
+		List<LeisureCoupon> leisureCouponList = leisureCouponRepository.findByCustomerIdAndUsedYN(
+				customerId, false).orElseThrow(() -> new LeisureException(ErrorCode.NOT_FOUND_COUPON));
 
-        Page<LeisureCoupon> leisureCouponPage
-            = leisureCouponRepository.findAllByCustomerIdAndUsedYNFalse(customerId,limit);
+		List<LeisureCouponDto> leisureCouponDtoList = new ArrayList<>();
 
-        List<LeisureCouponDto> leisureCouponDtos = new ArrayList<>();
-
-        for(LeisureCoupon leisureCoupon : leisureCouponPage){
-            leisureCouponDtos.add(LeisureCouponDto.from(leisureCoupon));
-        }
-
-        return new PageImpl<>(leisureCouponDtos, limit, leisureCouponPage.getTotalElements());
-    }
+		for (LeisureCoupon i : leisureCouponList) {
+			leisureCouponDtoList.add(LeisureCouponDto.from(i,
+				leisureCouponGroupRepository.findById(i.getCouponGroupId()).get().getSalePrice()));
+		}
+		return leisureCouponDtoList;
+	}
 }

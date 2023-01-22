@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface LeisureReservationDayRepository extends JpaRepository<LeisureReservationDay, Long> {
-	Optional<LeisureReservationDay> findByStartAtBetween(LocalDateTime startAt, LocalDateTime endAt);
-	Optional<LeisureReservationDay> findByEndAtBetween(LocalDateTime startAt, LocalDateTime endAt);
+	Optional<LeisureReservationDay> findByLeisureIdAndStartAtBetween(Long leisureId, LocalDateTime startAt, LocalDateTime endAt);
+	Optional<LeisureReservationDay> findByLeisureIdAndEndAtBetween(Long leisureId, LocalDateTime startAt, LocalDateTime endAt);
 }

@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class LeisureCartPaymentDto {
 	private Long cartId;
 
-	private String userName;
+	private String customerName;
 
 	private List<LeisureOrderItemDto> orderItemList;
 

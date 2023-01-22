@@ -15,7 +15,10 @@ public interface LeisureOrderItemRepository extends JpaRepository<LeisureOrderIt
 	Optional<LeisureOrderItem> findByLeisureCart_CustomerIdAndLeisureId(Long customerId, Long leisureId);
 	void deleteByIdAndLeisureCart_CustomerId(Long id, Long LeisureCartId);
 
+	Optional<List<LeisureOrderItem>> findByLeisureOrderId(Long orderId);
+
 	Page<LeisureOrderItem> findAllByLeisureOrderIdIn(List<Long> ids, Pageable limit);
+	Page<LeisureOrderItem> findAllByLeisureOrderId(Long orderId, Pageable limit);
 
 	Optional<LeisureOrderItem> findByCouponId(Long couponId);
 }

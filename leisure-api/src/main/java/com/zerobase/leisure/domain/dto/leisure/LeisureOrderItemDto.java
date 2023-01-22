@@ -34,6 +34,7 @@ public class LeisureOrderItemDto {
 			.sellerId(leisure.getSellerId())
 			.couponId(leisureOrderItem.getCouponId())
 			.salePrice(leisureOrderItem.getSalePrice())
+			.pictureUrl(leisure.getPictureUrl())
 			.name(leisure.getLeisureName())
 			.price(leisureOrderItem.getPrice())
 			.persons(leisureOrderItem.getPersons())

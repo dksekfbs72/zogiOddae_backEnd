@@ -29,6 +29,7 @@ public class LeisureCartItemDto {
 			.orderItemId(leisureOrderItem.getId())
 			.name(leisure.getLeisureName())
 			.price(leisure.getPrice())
+			.pictureUrl(leisure.getPictureUrl())
 			.persons(leisureOrderItem.getPersons())
 			.startAt(leisureOrderItem.getStartAt().toString())
 			.endAt(leisureOrderItem.getEndAt().toString())

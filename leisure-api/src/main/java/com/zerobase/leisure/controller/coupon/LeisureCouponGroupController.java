@@ -1,7 +1,6 @@
 package com.zerobase.leisure.controller.coupon;
 
 import com.zerobase.leisure.domain.dto.coupon.LeisureCouponGroupDto;
-import com.zerobase.leisure.domain.entity.coupon.LeisureCouponGroup;
 import com.zerobase.leisure.domain.form.AddLeisureCouponGroupForm;
 import com.zerobase.leisure.domain.model.WebResponseData;
 import com.zerobase.leisure.service.coupon.LeisureCouponGroupService;
@@ -13,37 +12,35 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/leisure/couponGroup")
 @RequiredArgsConstructor
 public class LeisureCouponGroupController {
 
     private final LeisureCouponGroupService leisureCouponGroupService;
 
-    @PostMapping
+    @PostMapping("/admin/leisure/couponGroup")
     public @ResponseBody WebResponseData<String> addLeisureCouponGroup(@RequestBody AddLeisureCouponGroupForm form) {
         leisureCouponGroupService.addLeisureCouponGroup(form);
         return WebResponseData.ok("쿠폰을 등록했습니다.");
     }
 
-    @GetMapping
+    @GetMapping("/leisure/couponGroup")
     public @ResponseBody WebResponseData<Page<LeisureCouponGroupDto>> getAccommodationAllCouponGroup(final Pageable pageable) {
         Page<LeisureCouponGroupDto> leisureCouponGroupDtos = leisureCouponGroupService.getAllLeisureCouponGroup(pageable);
         return WebResponseData.ok(leisureCouponGroupDtos);
     }
 
-    @PutMapping
+    @PutMapping("/admin/leisure/couponGroup")
     public @ResponseBody WebResponseData<String> updateLeisureCouponGroup(@RequestBody AddLeisureCouponGroupForm form) {
         leisureCouponGroupService.updateLeisureCouponGroup(form);
         return WebResponseData.ok("쿠폰을 수정했습니다.");
     }
 
-    @DeleteMapping
+    @DeleteMapping("/admin/leisure/couponGroup")
     public @ResponseBody WebResponseData<String> deleteLeisureCouponGroup(@RequestParam Long leisureCouponGroupId) {
         leisureCouponGroupService.deleteLeisureCouponGroup(leisureCouponGroupId);
 

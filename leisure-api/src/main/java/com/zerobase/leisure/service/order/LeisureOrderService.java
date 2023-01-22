@@ -1,6 +1,7 @@
 package com.zerobase.leisure.service.order;
 
 import com.zerobase.leisure.domain.dto.leisure.LeisureOrderItemDto;
+import com.zerobase.leisure.domain.dto.leisure.LeisureOrderListDto;
 import com.zerobase.leisure.domain.entity.coupon.LeisureCoupon;
 import com.zerobase.leisure.domain.entity.leisure.Leisure;
 import com.zerobase.leisure.domain.entity.leisure.LeisureReservationDay;
@@ -101,13 +102,34 @@ public class LeisureOrderService {
 		leisureCartRepository.save(leisureCart);
 	}
 
-	public Page<LeisureOrderItemDto> getLeisureOrder(Long customerId, Pageable pageable) {
+	public Page<LeisureOrderListDto> getLeisureOrder(Long customerId, Pageable pageable) {
 		Pageable limit = PageRequest.of(pageable.getPageNumber(), 15, Sort.by("id"));
 
-		List<Long> leisureOrderIds = ids(leisureOrderRepository.findByCustomerId(customerId));
+		Page<LeisureOrder> leisureOrderItems = leisureOrderRepository.findByCustomerId(customerId, limit);
 
-		Page<LeisureOrderItem> leisureOrderItems = leisureOrderItemRepository.findAllByLeisureOrderIdIn(
-			leisureOrderIds, limit);
+		List<LeisureOrderListDto> leisureOrderItemDtoList = new ArrayList<>();
+
+		for (int i = 0; i < leisureOrderItems.toList().size(); i++) {
+			LeisureOrder leisureOrder = leisureOrderItems.toList().get(i);
+
+			List<LeisureOrderItem> leisureOrderItemList = leisureOrderItemRepository.findByLeisureOrderId(
+				leisureOrder.getId()).orElseThrow(()->new LeisureException(ErrorCode.NOT_FOUND_ORDER_ITEM));
+
+			leisureOrderItemDtoList.add(LeisureOrderListDto.from(leisureOrder,
+				leisureOrderItemList.get(0), leisureRepository.findById(
+					leisureOrderItemList.get(0).getLeisureId()).get(), leisureOrderItemList.size()));
+		}
+
+		return new PageImpl<>(leisureOrderItemDtoList, limit, leisureOrderItems.getTotalElements());
+	}
+
+	public Page<LeisureOrderItemDto> getLeisureOrderDetail(Long orderId, Pageable pageable) {
+		Pageable limit = PageRequest.of(pageable.getPageNumber(), 15, Sort.by("id"));
+
+		leisureOrderRepository.findById(orderId).get();
+
+		Page<LeisureOrderItem> leisureOrderItems = leisureOrderItemRepository.findAllByLeisureOrderId(
+			orderId, limit);
 
 		List<LeisureOrderItemDto> leisureOrderItemDtoList = new ArrayList<>();
 

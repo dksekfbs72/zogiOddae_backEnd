@@ -1,6 +1,7 @@
 package com.zerobase.leisure.domain.repository.coupon;
 
 import com.zerobase.leisure.domain.entity.coupon.LeisureCoupon;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,5 +15,5 @@ public interface LeisureCouponRepository extends JpaRepository<LeisureCoupon, Lo
 
 	Long countByCouponGroupId(Long couponGroupId);
 
-	Page<LeisureCoupon> findAllByCustomerIdAndUsedYNFalse(Long customerId, Pageable limit);
+	Optional<List<LeisureCoupon>> findByCustomerIdAndUsedYN(Long customerId, boolean usingYn);
 }
