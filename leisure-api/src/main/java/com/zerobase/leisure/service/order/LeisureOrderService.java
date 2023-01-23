@@ -1,6 +1,9 @@
 package com.zerobase.leisure.service.order;
 
+import com.zerobase.leisure.domain.dto.leisure.LeisureOrderCompleteDto;
+import com.zerobase.leisure.domain.dto.leisure.LeisureOrderDto;
 import com.zerobase.leisure.domain.dto.leisure.LeisureOrderItemDto;
+import com.zerobase.leisure.domain.dto.leisure.LeisureOrderItemListDto;
 import com.zerobase.leisure.domain.dto.leisure.LeisureOrderListDto;
 import com.zerobase.leisure.domain.entity.coupon.LeisureCoupon;
 import com.zerobase.leisure.domain.entity.leisure.Leisure;
@@ -45,7 +48,7 @@ public class LeisureOrderService {
 	private final LeisureReservationDayRepository leisureReservationDayRepository;
 
 	@Transactional
-	public void LeisureOrder(Long customerId, Long leisurePaymentId) {
+	public LeisureOrderCompleteDto LeisureOrder(Long customerId, Long leisurePaymentId) {
 		if (leisureOrderRepository.findByCustomerIdAndLeisurePaymentId(customerId, leisurePaymentId)
 			.isPresent()) {
 			throw new LeisureException(ErrorCode.ALREADY_ORDERED_PAYMENT);
@@ -100,6 +103,11 @@ public class LeisureOrderService {
 
 		leisureCart.setTotalPrice(0);
 		leisureCartRepository.save(leisureCart);
+
+		return LeisureOrderCompleteDto.builder()
+			.reservationId(leisureOrder.getReservationId())
+			.price(leisureOrder.getTotalPrice())
+			.build();
 	}
 
 	public Page<LeisureOrderListDto> getLeisureOrder(Long customerId, Pageable pageable) {
@@ -123,30 +131,30 @@ public class LeisureOrderService {
 		return new PageImpl<>(leisureOrderItemDtoList, limit, leisureOrderItems.getTotalElements());
 	}
 
-	public Page<LeisureOrderItemDto> getLeisureOrderDetail(Long orderId, Pageable pageable) {
-		Pageable limit = PageRequest.of(pageable.getPageNumber(), 15, Sort.by("id"));
+	public LeisureOrderDto getLeisureOrderDetail(Long orderId) {
 
-		leisureOrderRepository.findById(orderId).get();
+		LeisureOrder leisureOrder = leisureOrderRepository.findById(orderId)
+			.orElseThrow(()-> new LeisureException(ErrorCode.NOT_FOUND_ORDER));
 
-		Page<LeisureOrderItem> leisureOrderItems = leisureOrderItemRepository.findAllByLeisureOrderId(
-			orderId, limit);
+		List<LeisureOrderItem> leisureOrderItems = leisureOrderItemRepository.findAllByLeisureOrderId(
+			orderId);
 
-		List<LeisureOrderItemDto> leisureOrderItemDtoList = new ArrayList<>();
+		List<LeisureOrderItemListDto> leisureOrderItemDtoList = new ArrayList<>();
 
-		List<Long> leisureIds = leisureIds(leisureOrderItems.toList());
+		List<Long> leisureIds = leisureIds(leisureOrderItems);
 
 		List<Leisure> leisureList = leisureRepository.findAllById(leisureIds);
 
-		for (int i = 0; i < leisureOrderItems.toList().size(); i++) {
+		for (int i = 0; i < leisureOrderItems.size(); i++) {
 			int index = whereLeisure(leisureList, leisureIds.get(i));
 			if (index == -1) {
 				continue;
 			}
-			leisureOrderItemDtoList.add(LeisureOrderItemDto.from(leisureOrderItems.toList().get(i),
+			leisureOrderItemDtoList.add(LeisureOrderItemListDto.from(leisureOrderItems.get(i),
 				leisureList.get(index)));
 		}
 
-		return new PageImpl<>(leisureOrderItemDtoList, limit, leisureOrderItems.getTotalElements());
+		return LeisureOrderDto.from(leisureOrder, leisureOrderItemDtoList);
 	}
 
 	private List<Long> ids(List<LeisureOrder> leisureOrderList) {

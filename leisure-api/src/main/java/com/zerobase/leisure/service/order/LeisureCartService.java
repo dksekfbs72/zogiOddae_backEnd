@@ -197,6 +197,11 @@ public class LeisureCartService {
 		leisureOrderItem.setPrice(leisureOrderItem.getPrice()+leisureOrderItem.getSalePrice());
 		leisureOrderItem.setSalePrice(0);
 
+		LeisureCoupon leisureCoupon = leisureCouponRepository.findById(leisureOrderItem.getCouponId()).get();
+		leisureCoupon.setUsedYN(false);
+
+		leisureCouponRepository.save(leisureCoupon);
+
 		leisureOrderItemRepository.save(leisureOrderItem);
 	}
 

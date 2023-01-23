@@ -36,7 +36,10 @@ public enum ErrorCode {
 	NOT_MY_COUPON("발급 받은 쿠폰이 아닙니다."),
 	NOT_FOUND_COUPON("쿠폰 정보를 찾을 수 없습니다."),
 	ALREADY_USED_COUPON("이미 사용한 쿠폰입니다."),
-	ALREADY_RESERVATION_DAY("이미 예약된 시간입니다.")
+	ALREADY_RESERVATION_DAY("이미 예약된 시간입니다."),
+	NOT_FOUND_ORDER("주문 정보를 찾을 수 없습니다."),
+	ALREADY_WISHED_LEISURE("이미 찜한 상품입니다"),
+	NOT_WISHED_LEISURE("찜한 상품이 아닙니다.")
 	;
 
 

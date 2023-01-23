@@ -1,5 +1,7 @@
 package com.zerobase.leisure.controller.order;
 
+import com.zerobase.leisure.domain.dto.leisure.LeisureOrderCompleteDto;
+import com.zerobase.leisure.domain.dto.leisure.LeisureOrderDto;
 import com.zerobase.leisure.domain.dto.leisure.LeisureOrderItemDto;
 import com.zerobase.leisure.domain.dto.leisure.LeisureOrderListDto;
 import com.zerobase.leisure.domain.model.WebResponseData;
@@ -21,12 +23,12 @@ public class LeisureOrderController {
 
 	private final LeisureOrderService leisureOrderService;
 	@PostMapping
-	public @ResponseBody WebResponseData<String> LeisureOrder(@RequestParam Long leisurePaymentId, Long customerId) {
+	public @ResponseBody WebResponseData<LeisureOrderCompleteDto> LeisureOrder(@RequestParam Long leisurePaymentId, Long customerId) {
 //		if (memberDetails==null) {
 //			throw new LeisureException(ErrorCode.NOT_AUTHORIZED);
 //		}
-		leisureOrderService.LeisureOrder(customerId, leisurePaymentId);
-		return WebResponseData.ok("예약에 성공하였습니다.");
+
+		return WebResponseData.ok(leisureOrderService.LeisureOrder(customerId, leisurePaymentId));
 	}
 
 	@GetMapping
@@ -39,11 +41,10 @@ public class LeisureOrderController {
 	}
 
 	@GetMapping("/detail")
-	public @ResponseBody WebResponseData<Page<LeisureOrderItemDto>> getLeisureOrderDetail(@RequestParam Long orderId,
-		final Pageable pageable) {
+	public @ResponseBody WebResponseData<LeisureOrderDto> getLeisureOrderDetail(@RequestParam Long orderId) {
 //		if (memberDetails==null) {
 //			throw new LeisureException(ErrorCode.NOT_AUTHORIZED);
 //		}
-		return WebResponseData.ok(leisureOrderService.getLeisureOrderDetail(orderId,pageable));
+		return WebResponseData.ok(leisureOrderService.getLeisureOrderDetail(orderId));
 	}
 }

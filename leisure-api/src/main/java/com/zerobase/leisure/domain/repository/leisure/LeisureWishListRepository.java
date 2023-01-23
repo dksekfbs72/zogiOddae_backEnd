@@ -15,4 +15,6 @@ public interface LeisureWishListRepository extends JpaRepository<LeisureWishList
 	void deleteByMemberIdAndLeisureId(Long memberId, Long leisureId);
 
 	Optional<Page<LeisureWishList>> findAllByMemberId(Long memberId, Pageable limit);
+
+	Optional<LeisureWishList> findByMemberIdAndLeisureId(Long memberId, Long leisureId);
 }

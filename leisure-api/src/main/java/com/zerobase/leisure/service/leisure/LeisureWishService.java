@@ -29,6 +29,11 @@ public class LeisureWishService {
 		leisureRepository.findById(leisureId)
 			.orElseThrow(() -> new LeisureException(ErrorCode.NOT_FOUND_LEISURE));
 
+		if (leisureWishListRepository.findByMemberIdAndLeisureId(memberId, leisureId)
+			.isPresent()) {
+			throw new LeisureException(ErrorCode.ALREADY_WISHED_LEISURE);
+		}
+
 		return leisureWishListRepository.save(LeisureWishList.builder()
 			.memberId(memberId)
 			.leisureId(leisureId)
@@ -37,7 +42,8 @@ public class LeisureWishService {
 
 	@Transactional
 	public void deleteLeisureWish(Long memberId, Long leisureId) {
-		leisureWishListRepository.deleteByMemberIdAndLeisureId(memberId, leisureId);
+		leisureWishListRepository.delete(leisureWishListRepository.findByMemberIdAndLeisureId(memberId, leisureId)
+			.orElseThrow(() -> new LeisureException(ErrorCode.NOT_WISHED_LEISURE)));
 	}
 
 	public Page<LeisureWishListDto> getLeisureWishList(Long memberId, Pageable pageable) {
